@@ -1,23 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,cmake
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,cmake
 
-### CMake ###
-CMakeLists.txt.user
-CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
-Makefile
-cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-CTestTestfile.cmake
-_deps
-
-### CMake Patch ###
-# External projects
-*-prefix/
-
 ### macOS ###
 # General
 .DS_Store
