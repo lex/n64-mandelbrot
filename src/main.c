@@ -16,11 +16,20 @@ int main(void)
 {
     static surface_t *disp = 0;
     display_init(resolution, bit_depth, 2, GAMMA_NONE, ANTIALIAS_RESAMPLE);
+    controller_init();
 
     debug_init_usblog();
     console_set_debug(true);
 
-    const size_t max_iterations = 512;
+    const size_t max_iterations = 256;
+
+    float minX = -2.0f;
+    float maxX = 1.0f;
+    float minY = -1.5f;
+    float maxY = 1.5f;
+
+    float offsetX = 0.0f;
+    float offsetY = 0.0f;
 
     while (1)
     {
@@ -34,8 +43,8 @@ int main(void)
         {
             for (size_t px = 0; px < resolution.width; ++px)
             {
-                float x0 = lerp(-2.0f, 1.0f, (float)px / resolution.width);
-                float y0 = lerp(-1.5f, 1.5f, (float)py / resolution.height);
+                float x0 = lerp(minX - offsetX, maxX - offsetX, (float)px / resolution.width);
+                float y0 = lerp(minY - offsetY, maxY - offsetY, (float)py / resolution.height);
 
                 float x = 0.0f;
                 float y = 0.0f;
@@ -60,6 +69,34 @@ int main(void)
         }
 
         display_show(disp);
+
+        controller_scan();
+        struct controller_data keys = get_keys_down();
+
+        if (keys.c[0].up)
+        {
+            minX += 0.1f;
+            maxX -= 0.1f;
+
+            minY += 0.1f;
+            maxY -= 0.1f;
+        }
+        else if (keys.c[0].down)
+        {
+            minX -= 0.1f;
+            maxX += 0.1f;
+
+            minY -= 0.1f;
+            maxY += 0.1f;
+        }
+        else if (keys.c[0].left)
+        {
+            offsetX += 0.1f;
+        }
+        else if (keys.c[0].right)
+        {
+            offsetX -= 0.1f;
+        }
     }
 
     return 0;
