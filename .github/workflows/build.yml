@@ -1,0 +1,13 @@
+name: build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: git submodule update --init --recursive
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g libdragon
+      - run: libdragon make
