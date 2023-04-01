@@ -51,7 +51,7 @@ int main(void)
             lerpY[py] = lerp(minY - offsetY, maxY - offsetY, (float)py / resolution.height);
         }
 
-        for (size_t py = 0; py < resolution.height; ++py)
+        for (size_t py = 0; py < resolution.height / 2; ++py)
         {
             for (size_t px = 0; px < resolution.width; ++px)
             {
@@ -76,7 +76,9 @@ int main(void)
                 }
 
                 const uint8_t color = MIN(iteration, 255);
-                graphics_draw_pixel(disp, px, py, graphics_make_color(color, color, color, 255));
+                uint32_t pixel_color = graphics_make_color(color, color, color, 255);
+                graphics_draw_pixel(disp, px, py, pixel_color);
+                graphics_draw_pixel(disp, px, resolution.height - py - 1, pixel_color);
             }
         }
 
